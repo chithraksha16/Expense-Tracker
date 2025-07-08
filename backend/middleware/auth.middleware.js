@@ -10,6 +10,7 @@ export const Authenticate=async(req,res,next)=>{
         const user=await User.findById(id);
     if(!user) return res.json({message:"User does not exists"})
         next()
+    req.user=user;
     }
     catch(err){
         res.json({message:err.message})

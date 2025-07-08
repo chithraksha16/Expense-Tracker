@@ -15,7 +15,9 @@ export const addExpense=async(req,res)=>{
 }
 
 export const getExpense=async(req,res)=>{
-    const expense=await Expense.find();
+    const userId=req.user._id
+    if(!userId) return res.status(400).json({message:"User not existed"})
+    const expense=await Expense.find({user:userId});
     res.json({expense})
 }
 
