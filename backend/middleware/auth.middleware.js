@@ -8,7 +8,7 @@ export const Authenticate=async(req,res,next)=>{
         const decode=jwt.verify(token,process.env.SECRET_KEY)
         const id=decode.userId
         const user=await User.findById(id);
-    if(!user) return res.json({message:"User does not exists"})
+        if(!user) return res.json({message:"User does not exists"})
         next()
     req.user=user;
     }

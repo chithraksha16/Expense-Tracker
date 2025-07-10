@@ -1,28 +1,24 @@
 import React, { useState } from 'react'
 import { AppContext } from '../contexts/AppContext'
 import { useContext } from 'react'
-import {ToastContainer,Bounce,toast} from 'react-toastify'
-import "react-toastify/ReactToastify.css"
+import {showSucess,showError} from '../libs/utils'
 const Login = () => {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
     const {login}= useContext(AppContext);
 
     const handleLogin=async(e)=>{
-            e.preventDefault()
+            e.preventDefault();
+            try{
             const result=await login(email,password);
-
-            toast.success(result.data.message,{
-                    position:"top-right",
-                    autoClose:1000,
-                    hideProgressBar:false,
-                    closeOnClick:true,
-                    pauseOnHover:true,
-                    draggable:true,
-                    progress:undefined,
-                    theme:"dark",
-                    transition:Bounce,
-                });
+            showSucess(result.data.message)
+            setEmail(" ")
+            setPassword(" ")
+            }
+            catch(error){
+                console.error("error: in login")
+                showError(error.response.data.message)
+            }
     }
   return (
     <>
