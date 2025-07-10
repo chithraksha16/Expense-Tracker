@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from '../contexts/AppContext';
+import { showError, showSuccess } from '../libs/utils';
 
 const AddExpense = () => {
     const [title,setTitle]=useState('');
     const [amount,setAmount]=useState(null)
     const [description,setDescription]=useState('')
     const [date,setDate]=useState('')
-  return (
+
+    const {addExpense}=useContext(AppContext)
+
+
+const handleSubmit=(e)=>{
+    e.preventDefault();
+    try{
+    const result=addExpense(title,amount,description,date)
+    setTitle("")
+    setAmount("")
+    setDescription("")
+    setDate("")
+    showSuccess(result.data.message)
+    }
+    catch(error){
+        console.error("Error:In adding expense")
+        showError(error.response.data.message)
+    }
+}
+return (
     <>
-      <div className='w-full h-screen bg-black text-white'>
-        <div className=''>
-            <form action="">
+    <div className='w-full h-screen bg-black text-white'>
+        <div >
+            <form onSubmit={handleSubmit} >
                 <div className='flex justify-center items-center '>
                     <div className='flex flex-col items-center justify-center gap-5 w-sm h-96 border-2 border-white mt-20 rounded-lg bg-gradient-to-r from-slate-700 to-slate-900 '>
                     <h1 className='text-xl font-mono font-bold text-blue-500'>Add Expense</h1>
@@ -56,9 +77,9 @@ const AddExpense = () => {
                 </div>
             </form>
         </div>
-      </div>
+    </div>
     </>
-  )
+)
 }
 
 export default AddExpense

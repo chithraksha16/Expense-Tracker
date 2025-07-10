@@ -3,6 +3,7 @@ import { useContext } from 'react'
 import { AppContext } from '../contexts/AppContext'
 import {ToastContainer,Bounce,toast} from 'react-toastify'
 import "react-toastify/ReactToastify.css"
+import { showError, showSuccess } from '../libs/utils'
 const Register = () => {
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
@@ -11,19 +12,19 @@ const Register = () => {
 
     const handleSubmit=async(e)=>{
             e.preventDefault();
+            try{
             const result =await register(name,email,password)
+            setName("")
+            setEmail("")
+            setPassword("")
+            showSuccess(result.data.message)
+            }
+            catch(error){
+                console.error("Error: in registering")
+                showError(error.response.data.message)
+
+            }
             
-        toast.success(result.data.message,{
-        position:"top-right",
-        autoClose:1000,
-        hideProgressBar:false,
-        closeOnClick:true,
-        pauseOnHover:true,
-        draggable:true,
-        progress:undefined,
-        theme:"dark",
-        transition:Bounce,
-    });
     }
   return (
     <>
@@ -56,7 +57,7 @@ const Register = () => {
                     className='w-2xs bg-slate-600 h-8 rounded-lg outline-offset-2 outline-sky-500 focus:outline-2 p-1 mt-1'
                     name="email" 
                     value={email}
-                     onChange={(e)=>setEmail(e.target.value)}
+                    onChange={(e)=>setEmail(e.target.value)}
                     id="inputEmail" />
                 </div>
                 <div>
