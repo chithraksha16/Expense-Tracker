@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AppContext } from '../contexts/AppContext'
 import { useContext } from 'react'
-import {showSucess,showError} from '../libs/utils'
+import { showSuccess,showError } from '../libs/utils'
 const Login = () => {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
