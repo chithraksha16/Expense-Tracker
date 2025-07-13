@@ -41,16 +41,38 @@ const addExpense=async(title,amount,description,date)=>{
   const api=await axios.post("http://localhost:4000/api/addExpense",{
     title,amount,description,date
   },{
+    
     headers:{
       "Content-Type":"application/json"
     },
+    
+    
     withCredentials:true
   })
   return api;
 }
 
+
+
+const  deleteExpense=async(expenseId)=>{
+    try{
+      const api=await axios.delete(`http://localhost:4000/api/delete/${expenseId}`,{
+        headers:{
+          "Content-Type":"application/json",
+          Authorization :`${token}`
+        },
+        withCredentials:true,
+      })
+      return api;
+
+    }
+    catch(error){
+      console.error("Deleting error:",error)
+    }
+}
+
   return (
-    <AppContext.Provider value={{register,login,addExpense}}>
+    <AppContext.Provider value={{register,login,addExpense,deleteExpense}}>
       {props.children}
     </AppContext.Provider>
   )
