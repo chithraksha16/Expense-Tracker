@@ -69,10 +69,26 @@ const  deleteExpense=async(expenseId)=>{
     catch(error){
       console.error("Deleting error:",error)
     }
+
+    const updateExpenses=async(data,expenseId)=>{
+    try{
+      const api=await axios.put(`http://localhost:4000/api/update/${expenseId}`,{data},{
+        headers:{
+          "Content-Type":"application/json",
+          Authorization :`${token}`
+        }
+      })
+      return api;
+    }
+    catch(error){
+      console.error("Updating error:",error)
+    }
+
+    }
 }
 
   return (
-    <AppContext.Provider value={{register,login,addExpense,deleteExpense}}>
+    <AppContext.Provider value={{register,login,addExpense,deleteExpense,updateExpenses}}>
       {props.children}
     </AppContext.Provider>
   )
