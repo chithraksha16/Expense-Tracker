@@ -69,8 +69,9 @@ const  deleteExpense=async(expenseId)=>{
     catch(error){
       console.error("Deleting error:",error)
     }
+}
 
-    const updateExpenses=async(data,expenseId)=>{
+const updateExpense=async(data,expenseId)=>{
     try{
       const api=await axios.put(`http://localhost:4000/api/update/${expenseId}`,{data},{
         headers:{
@@ -85,10 +86,28 @@ const  deleteExpense=async(expenseId)=>{
     }
 
     }
-}
+
+
+    const addIncome=async(incomesource,income,year,month)=>{
+      try{
+        const api= await axios.post("http://localhost:4000/api/addIncome",{
+          incomesource,income,year,month
+        },{
+          headers:{
+            "Content-Type":"application/json",
+            Authorization: `${token}`
+          },
+          withCredentials:true,
+        })
+        return api
+      }
+      catch(error){
+        console.error("Error:adding income");
+      }
+    }
 
   return (
-    <AppContext.Provider value={{register,login,addExpense,deleteExpense,updateExpenses}}>
+    <AppContext.Provider value={{register,login,addExpense,deleteExpense,updateExpense,addIncome}}>
       {props.children}
     </AppContext.Provider>
   )
